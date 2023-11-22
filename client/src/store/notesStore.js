@@ -35,7 +35,7 @@ const notesStore = create((set) => ({
         const res = await axios.post("http://localhost:4000/notes", createForm);
 
         set({
-            notes: [...note, res.data.note],
+            note: [...note, res.data.note],
             createForm: {
                 title: "",
                 body: "",
