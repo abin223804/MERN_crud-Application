@@ -55,6 +55,10 @@ const store=notesStore();
         });
     };
 
+
+
+
+
     const deleteNote = async (_id) => {
         const res = await axios.delete(`http://localhost:4000/notes/${_id}`);
 
@@ -107,7 +111,7 @@ const store=notesStore();
                             <div key={notes._id}>
                                 <h3>{notes.title}</h3>
                                 <h3>{notes.body}</h3>
-                                <button onClick={() => deleteNote(notes._id)}>Delete Note</button>
+                                <button onClick={() => store.deleteNote(notes._id)}>Delete Note</button>
 
                                 <button onClick={() => toggleUpdate(notes)}>Update Note</button>
                             </div>
