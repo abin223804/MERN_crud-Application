@@ -80,9 +80,32 @@ const notesStore = create((set) => ({
                 body,
             },
         });
-
-     
     },
+
+    updateNote: async (e) => {
+        e.preventDefault();
+
+        const {
+            updateForm: {title, body, _id},
+            note,
+        } = notesStore.getState();
+
+        const res = await axios.put(`http://localhost:4000/notes/${_id}`, {title, body});
+        const newNotes = [...note];
+        const noteIndex = note.findIndex((note) => {
+            return note._id === _id;
+        });
+        newNotes[noteIndex] = res.data.note;
+
+        set({
+            note: newNotes,
+            updateForm: {
+                _id: "",
+                title: "",
+                body: "",
+            },
+        });
+    }
 }));
 
 export default notesStore;

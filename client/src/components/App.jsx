@@ -135,7 +135,7 @@ const store=notesStore();
             {store.updateForm._id && (
                 <div>
                     <h2>Update Note</h2>
-                    <form onSubmit={updateNote}>
+                    <form onSubmit={store.updateNote}>
 
                         <input onChange={store.handleUpdateFieldChange} value={store.updateForm.title} name="title" />
                         <textarea onChange={store.handleUpdateFieldChange} value={store.updateForm.body} name="body" />
