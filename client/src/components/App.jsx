@@ -6,16 +6,6 @@ function App() {
 
 const store=notesStore();
 
-    const [note, setNote] = useState(null);
-    const [createForm, setCreateForm] = useState({
-        title: "",
-        body: "",
-    });
-    const [updateForm, setUpdateForm] = useState({
-        _id: null,
-        title: "",
-        body: "",
-    });
 
     useEffect(() => {
         store.fetchNotes();
@@ -23,96 +13,6 @@ const store=notesStore();
 
 
 
-    const fetchNotes = async () => {
-        const res = await axios.get("http://localhost:4000/notes");
-
-        setNote(res.data.note);
-    };
-
-
-
-    const updateCreateFormField = (e) => {
-        const {name, value} = e.target;
-
-        setCreateForm({
-            ...createForm,
-            [name]: value,
-        });
-    };
-
-
-
-
-    const CreateNote = async (e) => {
-        e.preventDefault();
-        const res = await axios.post("http://localhost:4000/notes", createForm);
-
-        setNote([...note, res.data.note]);
-
-        setCreateForm({
-            title: "",
-            body: "",
-        });
-    };
-
-
-
-
-
-    const deleteNote = async (_id) => {
-        const res = await axios.delete(`http://localhost:4000/notes/${_id}`);
-
-        const newNotes = [...note].filter((note) => {
-            return note._id !== _id;
-        });
-        setNote(newNotes);
-    };
-
-
-
-
-
-
-    const handleUpdateFieldChange = (e) => {
-        const {value, name} = e.target;
-
-        setUpdateForm({
-            ...updateForm,
-            [name]: value,
-        });
-    };
-
-
-
-
-
-
-    const toggleUpdate = (note) => {
-        setUpdateForm({title: note.title, body: note.body, _id: note._id});
-    };
-
-
-
-
-    const updateNote = async (e) => {
-        e.preventDefault();
-
-        const {title, body} = updateForm;
-
-        const res = await axios.put(`http://localhost:4000/notes/${updateForm._id}`, {title, body});
-        const newNotes = [...note];
-        const noteIndex = note.findIndex((note) => {
-            return note._id === updateForm._id;
-        });
-        newNotes[noteIndex] = res.data.note;
-        setNote(newNotes);
-
-        setUpdateForm({
-            _id: "",
-            title: "",
-            body: "",
-        });
-    };
 
     return (
         <div className="App">
