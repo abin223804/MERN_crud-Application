@@ -1,7 +1,11 @@
 import {useState, useEffect} from "react";
 import axios from "axios";
+import notesStore from "../store/notesStore";
 
 function App() {
+
+const store=notesStore();
+
     const [note, setNote] = useState(null);
     const [createForm, setCreateForm] = useState({
         title: "",
@@ -14,14 +18,18 @@ function App() {
     });
 
     useEffect(() => {
-        fetchNotes();
+        store.fetchNotes();
     }, []);
+
+
 
     const fetchNotes = async () => {
         const res = await axios.get("http://localhost:4000/notes");
 
         setNote(res.data.note);
     };
+
+
 
     const updateCreateFormField = (e) => {
         const {name, value} = e.target;
@@ -31,6 +39,9 @@ function App() {
             [name]: value,
         });
     };
+
+
+
 
     const CreateNote = async (e) => {
         e.preventDefault();
@@ -90,8 +101,8 @@ function App() {
         <div className="App">
             <div>
                 <h2>NOTES :</h2>
-                {note &&
-                    note.map((notes) => {
+                {store.note &&
+                    store.note.map((notes) => {
                         return (
                             <div key={notes._id}>
                                 <h3>{notes.title}</h3>
@@ -108,6 +119,7 @@ function App() {
                 <div>
                     <h2>Update Note</h2>
                     <form onSubmit={updateNote}>
+
                         <input onChange={handleUpdateFieldChange} value={updateForm.title} name="title" />
                         <textarea onChange={handleUpdateFieldChange} value={updateForm.body} name="body" />
                         <button type="submit">Update Note</button>
@@ -117,9 +129,9 @@ function App() {
             {!updateForm._id && (
                 <div>
                     <h2>Create Note:</h2>
-                    <form onSubmit={CreateNote}>
-                        <input onChange={updateCreateFormField} value={createForm.title} name="title" />
-                        <textarea onChange={updateCreateFormField} value={createForm.body} name="body" />
+                    <form onSubmit={store.CreateNote}>
+                        <input onChange={store.updateCreateFormField} value={store.createForm.title} name="title" />
+                        <textarea onChange={store.updateCreateFormField} value={store.createForm.body} name="body" />
                         <button type="submit">Create Note</button>
                     </form>
                 </div>
