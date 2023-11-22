@@ -3,6 +3,7 @@ import {useState, useEffect} from "react";
 import notesStore from "../store/notesStore";
 import Notes from "./Notes";
 import UpdateNote from "./UpdateNote";
+import CreateNote from "./CreateNote";
 
 function App() {
 
@@ -24,14 +25,9 @@ const store = notesStore();
                <UpdateNote/>
             )}
             {!store.updateForm._id && (
-                <div>
-                    <h2>Create Note:</h2>
-                    <form onSubmit={store.CreateNote}>
-                        <input onChange={store.updateCreateFormField} value={store.createForm.title} name="title" />
-                        <textarea onChange={store.updateCreateFormField} value={store.createForm.body} name="body" />
-                        <button type="submit">Create Note</button>
-                    </form>
-                </div>
+                
+               <CreateNote/>
+               
             )}
         </div>
     );
