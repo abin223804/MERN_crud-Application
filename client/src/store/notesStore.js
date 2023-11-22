@@ -7,6 +7,11 @@ const notesStore = create((set) => ({
         title: "",
         body: "",
     },
+    updateForm: {
+        id: null,
+        title: "",
+        body: "",
+    },
 
     fetchNotes: async () => {
         const res = await axios.get("http://localhost:4000/notes");
@@ -43,22 +48,41 @@ const notesStore = create((set) => ({
         });
     },
 
-    deleteNote :async (_id) => {
+    deleteNote: async (_id) => {
         const res = await axios.delete(`http://localhost:4000/notes/${_id}`);
-        const {note}=notesStore.getState();
+        const {note} = notesStore.getState();
 
         const newNotes = note.filter((note) => {
             return note._id !== _id;
         });
 
-      set({note:newNotes})
-
-       
+        set({note: newNotes});
     },
 
+    handleUpdateFieldChange: (e) => {
+        const {value, name} = e.target;
 
+        set((state) => {
+            return {
+                updateForm: {
+                    ...state.updateForm,
+                    [name]: value,
+                },
+            };
+        });
+    },
 
-    
+    toggleUpdate: ({_id, title, body}) => {
+        set({
+            updateForm: {
+                title,
+                _id,
+                body,
+            },
+        });
+
+     
+    },
 }));
 
 export default notesStore;

@@ -68,6 +68,11 @@ const store=notesStore();
         setNote(newNotes);
     };
 
+
+
+
+
+
     const handleUpdateFieldChange = (e) => {
         const {value, name} = e.target;
 
@@ -77,9 +82,17 @@ const store=notesStore();
         });
     };
 
+
+
+
+
+
     const toggleUpdate = (note) => {
         setUpdateForm({title: note.title, body: note.body, _id: note._id});
     };
+
+
+    
 
     const updateNote = async (e) => {
         e.preventDefault();
@@ -113,7 +126,7 @@ const store=notesStore();
                                 <h3>{notes.body}</h3>
                                 <button onClick={() => store.deleteNote(notes._id)}>Delete Note</button>
 
-                                <button onClick={() => toggleUpdate(notes)}>Update Note</button>
+                                <button onClick={() => store.toggleUpdate(notes)}>Update Note</button>
                             </div>
                         );
                     })}
@@ -124,8 +137,8 @@ const store=notesStore();
                     <h2>Update Note</h2>
                     <form onSubmit={updateNote}>
 
-                        <input onChange={handleUpdateFieldChange} value={updateForm.title} name="title" />
-                        <textarea onChange={handleUpdateFieldChange} value={updateForm.body} name="body" />
+                        <input onChange={store.handleUpdateFieldChange} value={store.updateForm.title} name="title" />
+                        <textarea onChange={store.handleUpdateFieldChange} value={store.updateForm.body} name="body" />
                         <button type="submit">Update Note</button>
                     </form>
                 </div>
