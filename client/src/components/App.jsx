@@ -1,10 +1,11 @@
 import {useState, useEffect} from "react";
-import axios from "axios";
+
 import notesStore from "../store/notesStore";
+import Notes from "./Notes";
 
 function App() {
 
-const store=notesStore();
+const store = notesStore();
 
 
     useEffect(() => {
@@ -16,22 +17,8 @@ const store=notesStore();
 
     return (
         <div className="App">
-            <div>
-                <h2>NOTES :</h2>
-                {store.note &&
-                    store.note.map((notes) => {
-                        return (
-                            <div key={notes._id}>
-                                <h3>{notes.title}</h3>
-                                <h3>{notes.body}</h3>
-                                <button onClick={() => store.deleteNote(notes._id)}>Delete Note</button>
-
-                                <button onClick={() => store.toggleUpdate(notes)}>Update Note</button>
-                            </div>
-                        );
-                    })}
-            </div>
-
+            
+            <Notes/>
             {store.updateForm._id && (
                 <div>
                     <h2>Update Note</h2>
