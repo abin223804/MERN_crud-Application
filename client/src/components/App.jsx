@@ -92,7 +92,7 @@ const store=notesStore();
     };
 
 
-    
+
 
     const updateNote = async (e) => {
         e.preventDefault();
@@ -132,7 +132,7 @@ const store=notesStore();
                     })}
             </div>
 
-            {updateForm._id && (
+            {store.updateForm._id && (
                 <div>
                     <h2>Update Note</h2>
                     <form onSubmit={updateNote}>
@@ -143,7 +143,7 @@ const store=notesStore();
                     </form>
                 </div>
             )}
-            {!updateForm._id && (
+            {!store.updateForm._id && (
                 <div>
                     <h2>Create Note:</h2>
                     <form onSubmit={store.CreateNote}>
