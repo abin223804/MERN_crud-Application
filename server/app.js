@@ -2,7 +2,9 @@ import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import cors from 'cors'
-import controller from "./controller/notesController.js";
+import notesController from "./Controller/notesController.js";
+import userController from './controller/usercontroller.js'
+
 
 if (process.env.NODE_ENV !== "production") {
     dotenv.config();
@@ -13,15 +15,23 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-app.get("/notes", controller.viewNotes);
 
-app.get("/notes/:Id", controller.viewNote);
+// userController Routes
 
-app.post("/notes", controller.addNote);
+app.post("/signup",userController.signup)
+app.post("/login",userController.login)
+app.post("/logout",userController.logout)
 
-app.put("/notes/:id", controller.updateNote);
 
-app.delete("/notes/:id", controller.deleteNote);
+app.get("/notes",  notesController.viewNotes);
+
+app.get("/notes/:Id",  notesController.viewNote);
+
+app.post("/notes",  notesController.addNote);
+
+app.put("/notes/:id",  notesController.updateNote);
+
+app.delete("/notes/:id",  notesController.deleteNote);
 
 const PORT = process.env.PORT;
 
