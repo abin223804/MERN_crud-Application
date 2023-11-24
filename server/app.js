@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import cors from 'cors';
+import cookieParser from 'cookie-parser'
 import notesController from "./Controller/notesController.js";
 import userController from './controller/usercontroller.js'
 import requiresAuth from "./middleware/requiresAuth.js";
@@ -13,9 +14,10 @@ if (process.env.NODE_ENV !== "production") {
 
 const app = express();
 
+app.use(cookieParser())
 app.use(express.json());
 app.use(cors());
-// app.use(cookieParser());
+
 
 // userController Routes
 

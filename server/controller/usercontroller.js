@@ -26,7 +26,7 @@ const login=async(req,res)=>{
  const user=await User.find({email});
  if(!user) return res.sendStatus(401);
 
- const passwordMatch=bcrypt.compareSync(password,user.password);
+ const passwordMatch=bcrypt.compare(password,user.password);
 
  if(!passwordMatch) return res.sendStatus(401);
 
@@ -60,7 +60,14 @@ const logout=async(req,res)=>{
 }
 
 const checkAuth=(req,res)=>{
+   
+    console.log(req.user);
+
     res.sendStatus(200)
+
+
+
+
 }
 
 
