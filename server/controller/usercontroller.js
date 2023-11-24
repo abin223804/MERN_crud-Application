@@ -59,5 +59,9 @@ const logout=async(req,res)=>{
 
 }
 
+const checkAuth=(req,res)=>{
+    res.sendStatus(200)
+}
 
-export default {signup,login,logout} ;
+
+export default {signup,login,logout,checkAuth} ;

@@ -2,9 +2,9 @@ import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import cors from 'cors';
-// import cookieParser from  'cookieparser';
 import notesController from "./Controller/notesController.js";
 import userController from './controller/usercontroller.js'
+import requiresAuth from "./middleware/requiresAuth.js";
 
 
 if (process.env.NODE_ENV !== "production") {
@@ -22,6 +22,7 @@ app.use(cors());
 app.post("/signup",userController.signup)
 app.post("/login",userController.login)
 app.post("/logout",userController.logout)
+app.get('/check-auth',requiresAuth,userController.checkAuth)
 
 
 app.get("/notes",  notesController.viewNotes);
