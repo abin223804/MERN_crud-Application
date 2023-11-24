@@ -10,13 +10,13 @@ const requireAuth= async(req,res,next)=> {
 
  const token = req.cookies.Authorization;
 
- console.log('2')
+ console.log(token)
 
  const decoded=jwt.verify(token,process.env.SECRET_KEY)
- console.log('3')
+ console.log(decoded)
 
- const user = await User.findById(decoded.sub);
- console.log('4')
+ const user= await User.findOne(decoded.sub);
+ console.log(user)
 
  
 
@@ -27,7 +27,7 @@ const requireAuth= async(req,res,next)=> {
 
  req.user=user;
 
- 
+
 
  console.log('6')
 

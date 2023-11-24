@@ -23,7 +23,7 @@ app.use(cors());
 
 app.post("/signup",userController.signup)
 app.post("/login",userController.login)
-app.post("/logout",userController.logout)
+app.get("/logout",userController.logout)
 app.get('/check-auth',requiresAuth,userController.checkAuth)
 
 
