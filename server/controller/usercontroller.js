@@ -1,76 +1,50 @@
-import User from '../model/user.js'
-import bcrypt from 'bcrypt'
-import jwt from 'jsonwebtoken'
+import User from "../model/user.js";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
+const signup = async (req, res) => {
+    const {email, password} = req.body;
 
+    const hashedPassword = bcrypt.hashSync(password, 8);
 
+    await User.create({email, password: hashedPassword});
 
+    res.sendStatus(200);
+};
 
+const login = async (req, res) => {
+    const {email, password} = req.body;
+    const user = await User.findOne({email});
+    if (!user) return res.sendStatus(401);
 
-const signup=async(req,res)=>{
+    const passwordMatch = bcrypt.compareSync(password, user.password);
 
-const{email,password}=req.body;
+    if (!passwordMatch) return res.sendStatus(401);
 
-const hashedPassword = bcrypt.hashSync(password, 8);
+    const exp = Date.now() + 1000 * 60 * 60 * 24 * 30;
 
-await User.create({email,password:hashedPassword});
+    const token = jwt.sign({sub: user._id, exp}, process.env.SECRET_KEY);
 
-res.sendStatus(200);
+    res.cookie("Authorization", token, {
+        expires: new Date(exp),
+        httpOnly: true,
+        sameSite: "lax",
+        secure: process.env.NODE_ENV === "production",
+    });
 
-}
+    res.sendStatus(200);
+};
 
+const logout = async (req, res) => {
+    res.clearCookie("Authorization");
 
-const login=async(req,res)=>{
+    res.sendStatus(200);
+};
 
- const{email,password}=req.body;
- const user=await User.find({email});
- if(!user) return res.sendStatus(401);
-
- const passwordMatch=bcrypt.compareSync(password,user.password);
-
- if(!passwordMatch) return res.sendStatus(401);
-
- const exp=Date.now()+1000*60*60*24*30
-
- const token = jwt.sign({sub:user._id,exp}, process.env.SECRET_KEY);
-
-  
-res.cookie(
-    "Authorization",token,{
-        expires:new Date(exp),
-        httpOnly:true,
-        sameSite:'lax',
-        secure:process.env.NODE_ENV==='production',
-    }
-)
-
-
-
-    res.sendStatus(200)
-
-
-
-
-}
-
-const logout=async(req,res)=>{
-
-  res.clearCookie("Authorization")
-
-  res.sendStatus(200)
-
-}
-
-const checkAuth=(req,res)=>{
-   
+const checkAuth = (req, res) => {
     console.log(req.user);
 
-    res.sendStatus(200)
+    res.sendStatus(200);
+};
 
-
-
-
-}
-
-
-export default {signup,login,logout,checkAuth} ;
+export default {signup, login, logout, checkAuth};
