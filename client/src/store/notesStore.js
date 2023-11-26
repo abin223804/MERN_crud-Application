@@ -14,7 +14,7 @@ const notesStore = create((set) => ({
     },
 
     fetchNotes: async () => {
-        const res = await axios.get("http://localhost:4000/notes");
+        const res = await axios.get("/notes");
 
         set({note: res.data.note});
     },
@@ -37,7 +37,7 @@ const notesStore = create((set) => ({
 
         const {createForm, note} = notesStore.getState();
 
-        const res = await axios.post("http://localhost:4000/notes", createForm);
+        const res = await axios.post("/notes", createForm);
 
         set({
             note: [...note, res.data.note],
@@ -49,7 +49,7 @@ const notesStore = create((set) => ({
     },
 
     deleteNote: async (_id) => {
-        const res = await axios.delete(`http://localhost:4000/notes/${_id}`);
+        const res = await axios.delete(`/notes/${_id}`);
         const {note} = notesStore.getState();
 
         const newNotes = note.filter((note) => {
@@ -90,7 +90,7 @@ const notesStore = create((set) => ({
             note,
         } = notesStore.getState();
 
-        const res = await axios.put(`http://localhost:4000/notes/${_id}`, {title, body});
+        const res = await axios.put(`/notes/${_id}`, {title, body});
         const newNotes = [...note];
         const noteIndex = note.findIndex((note) => {
             return note._id === _id;
@@ -105,7 +105,7 @@ const notesStore = create((set) => ({
                 body: "",
             },
         });
-    }
+    },
 }));
 
 export default notesStore;

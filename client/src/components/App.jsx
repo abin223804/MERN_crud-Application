@@ -6,29 +6,17 @@ import UpdateNote from "./UpdateNote";
 import CreateNote from "./CreateNote";
 
 function App() {
-
-const store = notesStore();
-
+    const store = notesStore();
 
     useEffect(() => {
         store.fetchNotes();
     }, []);
 
-
-
-
     return (
         <div className="App">
-            
-            <Notes/>
-            {store.updateForm._id && (
-               <UpdateNote/>
-            )}
-            {!store.updateForm._id && (
-                
-               <CreateNote/>
-               
-            )}
+            <Notes />
+            {store.updateForm._id && <UpdateNote />}
+            {!store.updateForm._id && <CreateNote />}
         </div>
     );
 }
