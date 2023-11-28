@@ -1,11 +1,13 @@
+import authStore from "../store/authStore"
 
 
 export default function LoginForm() {
+    const store=authStore();
   return (
-    <form>
-    <input type="email" name="email" />
-    <input type="password" name="password"/>
-    <button type="submit">Submit</button>
+    <form onSubmit={store.login}>
+    <input onChange={store.updateLoginForm} value={store.loginForm.email} type="email" name="email" />
+    <input onChange={store.updateLoginForm} value={store.loginForm.password} type="password" name="password"/>
+    <button type="submit">Login</button>
   </form>
 
   )
