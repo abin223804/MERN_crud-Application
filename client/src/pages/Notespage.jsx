@@ -12,7 +12,7 @@ export default function Notespage() {
     }, []);
     return (
         <div>
-            <Notes />
+            <Notes  />
             <UpdateNote />
             <CreateNote />
         </div>
