@@ -25,11 +25,11 @@ app.post("/login", userController.login);
 app.get("/logout", userController.logout);
 app.get("/check-auth", requiresAuth, userController.checkAuth);
 
-app.get("/notes", notesController.viewNotes);
-app.get("/notes/:Id", notesController.viewNote);
-app.post("/notes", notesController.addNote);
-app.put("/notes/:id", notesController.updateNote);
-app.delete("/notes/:id", notesController.deleteNote);
+app.get("/notes",requiresAuth, notesController.viewNotes);
+app.get("/notes/:Id",requiresAuth, notesController.viewNote);
+app.post("/notes",requiresAuth, notesController.addNote);
+app.put("/notes/:id",requiresAuth, notesController.updateNote);
+app.delete("/notes/:id",requiresAuth, notesController.deleteNote);
 
 const PORT = process.env.PORT;
 
