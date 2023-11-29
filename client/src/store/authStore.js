@@ -2,7 +2,7 @@ import {create} from "zustand";
 import axios from "axios";
 
 const authStore = create((set) => ({
-    loggedIn:null,
+    loggedIn: null,
     loginForm: {
         email: "",
         password: "",
@@ -21,11 +21,17 @@ const authStore = create((set) => ({
     },
 
     login: async (e) => {
-        e.preventDefault();
         const {loginForm} = authStore.getState();
         const res = await axios.post("/login", loginForm, {withCredentials: true});
-        console.log(res),
-     set({loggedIn:true})
+        console.log(res), set({loggedIn: true});
+    },
+    checkAuth: async (e) => {
+        try {
+            await axios.get("/check-auth", {withCredentials: true});
+            set({loggedIn: true});
+        } catch (err) {
+            set({loggedIn: false});
+        }
     },
 }));
 
