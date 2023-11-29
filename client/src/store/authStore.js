@@ -2,33 +2,31 @@ import {create} from "zustand";
 import axios from "axios";
 
 const authStore = create((set) => ({
-    loginForm:{
-        email:"",
-        password:"",
+    loggedIn:null,
+    loginForm: {
+        email: "",
+        password: "",
     },
-    updateLoginForm:(e)=>{
-    const{name,value} = e.target
+    updateLoginForm: (e) => {
+        const {name, value} = e.target;
 
-    set((state)=>{
-        return{
-            loginForm:{
-                ...state.loginForm,
-                [name]:value,
-            }
-        }
-    })
-
-
+        set((state) => {
+            return {
+                loginForm: {
+                    ...state.loginForm,
+                    [name]: value,
+                },
+            };
+        });
     },
 
-    login:async(e)=>{
-      e.preventDefault();
-      const{loginForm}=authStore.getState();
-    const res= await axios.post("/login",loginForm,{withCredentials:true})
- 
-   
-    }
-
+    login: async (e) => {
+        e.preventDefault();
+        const {loginForm} = authStore.getState();
+        const res = await axios.post("/login", loginForm, {withCredentials: true});
+        console.log(res),
+     set({loggedIn:true})
+    },
 }));
 
 export default authStore;

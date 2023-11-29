@@ -1,6 +1,7 @@
 import LoginPage from "../pages/LoginPage";
 import Notespage from "../pages/Notespage";
 import {BrowserRouter,Routes,Route,Link} from 'react-router-dom'
+import RequireAuth from "./RequireAuth";
 
 function App() {
     
@@ -18,7 +19,10 @@ function App() {
 </ul>
 
 <Routes>
-    <Route index element={ <Notespage/>}  />
+    <Route index element={ 
+   <RequireAuth> <Notespage/></RequireAuth>
+    
+    }  />
     <Route path="/login" element= { <LoginPage/>} />
 
 </Routes>
