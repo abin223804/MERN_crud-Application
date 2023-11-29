@@ -7,6 +7,11 @@ const authStore = create((set) => ({
         email: "",
         password: "",
     },
+    signupForm: {
+        email: "",
+        password: "",
+    },
+
     updateLoginForm: (e) => {
         const {name, value} = e.target;
 
@@ -19,11 +24,28 @@ const authStore = create((set) => ({
             };
         });
     },
+    updateSignupForm: (e) => {
+        const {name, value} = e.target;
+
+        set((state) => {
+            return {
+                signupForm: {
+                    ...state.signupForm,
+                    [name]: value,
+                },
+            };
+        });
+    },
 
     login: async (e) => {
         const {loginForm} = authStore.getState();
         const res = await axios.post("/login", loginForm, {withCredentials: true});
         console.log(res), set({loggedIn: true});
+    },
+    signup: async (e) => {
+        const {signupForm} = authStore.getState();
+        const res = await axios.post("/signup", signupForm, {withCredentials: true});
+        console.log(res);
     },
     checkAuth: async (e) => {
         try {
