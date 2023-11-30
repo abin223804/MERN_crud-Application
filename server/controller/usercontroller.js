@@ -3,64 +3,66 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 const signup = async (req, res) => {
-    try{
-    const {email, password} = req.body;
+    try {
+        const {email, password} = req.body;
 
-    const hashedPassword = bcrypt.hashSync(password, 8);
+        const hashedPassword = bcrypt.hashSync(password, 8);
 
-    await User.create({email, password: hashedPassword});
-
-   
-}catch(err){
-    console.log(err);
-    res.sendStatus(200);
-}}
+        await User.create({email, password: hashedPassword});
+    } catch (err) {
+        console.log(err);
+        res.sendStatus(200);
+    }
+};
 
 const login = async (req, res) => {
-    try{
-    const {email, password} = req.body;
-    const user = await User.findOne({email});
-    if (!user) return res.sendStatus(401);
+    try {
+        const {email, password} = req.body;
+        const user = await User.findOne({email});
+        if (!user) return res.sendStatus(401);
 
-    const passwordMatch = bcrypt.compareSync(password, user.password);
+        const passwordMatch = bcrypt.compareSync(password, user.password);
 
-    if (!passwordMatch) return res.sendStatus(401);
+        if (!passwordMatch) return res.sendStatus(401);
 
-    const exp = Date.now() + 1000 * 60 * 60 * 24 * 30;
+        const exp = Date.now() + 1000 * 60 * 60 * 24 * 30;
 
-    const token = jwt.sign({sub: user._id, exp}, process.env.SECRET_KEY);
+        const token = jwt.sign({sub: user._id, exp}, process.env.SECRET_KEY);
 
-    res.cookie("Authorization", token, {
-        expires: new Date(exp),
-        httpOnly: true,
-        sameSite: "lax",
-        secure: process.env.NODE_ENV === "production",
-    });
+        res.cookie("Authorization", token, {
+            expires: new Date(exp),
+            httpOnly: true,
+            sameSite: "lax",
+            secure: process.env.NODE_ENV === "production",
+        });
 
-    res.sendStatus(200);
-}catch(err){
-    console.log(err);
-    res.sendStatus(400);
-}}
+        res.sendStatus(200);
+    } catch (err) {
+        console.log(err);
+        res.sendStatus(400);
+    }
+};
 
 const logout = async (req, res) => {
-    try{
-    res.clearCookie("Authorization");
+    try {
+        res.clearCookie("Authorization");
 
-    res.sendStatus(200);
-}catch(err){
-    console.log(err);
-    res.sendStatus(400);
-}}
+        res.sendStatus(200);
+    } catch (err) {
+        console.log(err);
+        res.sendStatus(400);
+    }
+};
 
 const checkAuth = (req, res) => {
-    try{
-    console.log(req.user);
+    try {
+        console.log(req.user);
 
-    res.sendStatus(200);
-}catch(err){
-    console.log(err);
-    res.sendStatus(400);
-}} 
+        res.sendStatus(200);
+    } catch (err) {
+        console.log(err);
+        res.sendStatus(400);
+    }
+};
 
-export default {signup, login, logout, checkAuth}; 
+export default {signup, login, logout, checkAuth};

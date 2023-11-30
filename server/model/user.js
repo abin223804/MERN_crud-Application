@@ -14,7 +14,8 @@ const userSchema = new Schema({
      type:'string',
      required:true,
 
-    }
+    },
+    notes:[{type:mongoose.Schema.Types.ObjectId,ref:"Note"}],
 });
 
 export default mongoose.model("User", userSchema);
